@@ -11,7 +11,7 @@ device = XBeeDevice(PORT, BAUD_RATE)
 device.open()
 
 # Coordinator XBee's MAC address
-COORDINATOR_MAC = "0013A20041E1E5B5"  # Replace with the actual MAC address
+COORDINATOR_MAC = "0013A20041E1E5C1"  # Replace with the actual MAC address
 remote_device = RemoteXBeeDevice(device, XBee64BitAddress.from_hex_string(COORDINATOR_MAC))
 
 def calculate_checksum(Tid, a, b, c):
@@ -24,7 +24,7 @@ def send_data():
     for b in range(9, -1, -1):
         for c in range(9, -1, -1):
             chk = calculate_checksum(Tid, a, b, c)
-            message = f"{250} {Tid} {a} {b} {c} {chk} {251}"
+            message = f"{250}{Tid}{a}{b}{c}{chk}{251}"
             try:
                 device.send_data(remote_device, message)
                 print(f"Sent: {message}")
